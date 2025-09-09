@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .about-section {
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5em;
+        margin-top: 2em;
+    }
+    .feature-item {
+        background-color: #f9f9f9;
+        padding: 1.5em;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .feature-item h3 {
+        color: var(--secondary-color);
+        margin-bottom: 0.5em;
+    }
+</style>
+
+<div class="about-section">
+    <h2>About Component Design Engineering Toolbox</h2>
+    
+    <p>Our engineering toolbox is a comprehensive platform designed to support mechanical engineers and designers in creating precise and efficient brake system components. With a focus on accuracy, performance, and innovation, we provide advanced computational tools for brake system design.</p>
+    
+    <h3>Our Mission</h3>
+    <p>To empower engineers with cutting-edge design tools that simplify complex brake system calculations, reduce development time, and enhance overall component performance.</p>
+    
+    <div class="feature-grid">
+        <div class="feature-item">
+            <h3>Precision Engineering</h3>
+            <p>Advanced computational tools for accurate brake component design and analysis.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Comprehensive Analysis</h3>
+            <p>Detailed calculations for disc, caliper, and brake pad design parameters.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Performance Optimization</h3>
+            <p>Tools to help engineers maximize brake system efficiency and safety.</p>
+        </div>
+    </div>
+    
+    <h3>Key Design Capabilities</h3>
+    <ul>
+        <li>Disc Brake Geometry Calculation</li>
+        <li>Caliper Design Optimization</li>
+        <li>Brake Pad Material and Performance Analysis</li>
+        <li>Thermal and Stress Simulations</li>
+        <li>Safety Factor Assessments</li>
+    </ul>
+    
+    <p>Our toolbox is continuously updated to incorporate the latest engineering methodologies and computational techniques, ensuring that engineers have access to state-of-the-art design resources.</p>
+</div>
+{% endblock %}

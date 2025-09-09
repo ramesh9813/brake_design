@@ -1,9 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Toolbox</h2>
-    <ul>
-        <li><a href="{{ url_for('disc_brake') }}">Disc Brake Design</a></li>
-        <li><a href="{{ url_for('caliper_design') }}">Caliper Design</a></li>
-    </ul>
+    <h2>Brake Design Toolbox</h2>
+    <p>Explore our comprehensive suite of design tools for brake system components. Select a tool to begin your design process.</p>
+    
+    <div class="toolbox-grid">
+        <div class="toolbox-item">
+            <h3>Disc Design</h3>
+            <p>Create precise and efficient disc configurations.</p>
+            <a href="{{ url_for('disc_design') }}">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Caliper Design</h3>
+            <p>Develop optimized brake caliper models for various applications.</p>
+            <a href="{{ url_for('caliper_design') }}">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Brake Pad Design</h3>
+            <p>Engineer high-performance brake pad solutions.</p>
+            <a href="{{ url_for('brake_pad_design') }}">Start Designing</a>
+        </div>
+    </div>
+
+    <div style="margin-top: 2em; background-color: #f9f9f9; padding: 1em; border-radius: 8px;">
+        <h3>Why Use Our Toolbox?</h3>
+        <ul>
+            <li>Precision Engineering Tools</li>
+            <li>Comprehensive Design Options</li>
+            <li>User-Friendly Interface</li>
+            <li>Advanced Calculation Capabilities</li>
+        </ul>
+    </div>
 {% endblock %}

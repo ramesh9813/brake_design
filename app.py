@@ -7,8 +7,8 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/disc-brake', methods=['GET', 'POST'])
-def disc_brake():
+@app.route('/disc-design', methods=['GET', 'POST'])
+def disc_design():
     if request.method == 'POST':
         # Get inputs from the form
         mass_vehicle = float(request.form['mass_vehicle'])
@@ -113,6 +113,45 @@ def caliper_design():
             'safety_factor': f'{safety_factor:.2f}'
         })
     return render_template('caliper_design.html', results=None)
+
+@app.route('/brake-pad-design', methods=['GET', 'POST'])
+def brake_pad_design():
+    if request.method == 'POST':
+        # Get inputs from the form
+        disc_effective_radius = float(request.form['disc_effective_radius'])
+        required_braking_torque = float(request.form['required_braking_torque'])
+        friction_coefficient = float(request.form['friction_coefficient'])
+        pad_wear_rate = float(request.form['pad_wear_rate'])
+        pad_thickness_mm = float(request.form['pad_thickness'])
+        pad_area_cm2 = float(request.form['pad_area'])
+        pad_thermal_conductivity = float(request.form['pad_thermal_conductivity'])
+
+        # --- Unit Conversions ---
+        pad_area_m2 = pad_area_cm2 / 10000
+        pad_thickness_m = pad_thickness_mm / 1000
+
+        # --- Calculation Logic ---
+        pad_material = f"Friction Coefficient: {friction_coefficient}"
+        pad_area_thickness = f"{pad_area_cm2} cm², {pad_thickness_mm} mm"
+        # Simplified thermal capacity calculation
+        thermal_capacity = pad_area_m2 * pad_thickness_m * pad_thermal_conductivity * 1000
+        wear_life = (pad_thickness_mm / pad_wear_rate) * 1000 if pad_wear_rate > 0 else float('inf')
+
+        return render_template('brake_pad_design.html', results={
+            'pad_material': pad_material,
+            'pad_area_thickness': pad_area_thickness,
+            'thermal_capacity': f'{thermal_capacity:.2f} W/K',
+            'wear_life': f'{wear_life:.2f} km'
+        })
+    return render_template('brake_pad_design.html', results=None)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -84,36 +84,33 @@
         }
     </style>
 
-    <h2>Caliper Design</h2>
+    <h2>Brake Pad Design</h2>
     <div class="main-container">
         <div class="input-container">
             <form method="post">
                 <div class="form-row">
                     <div class="form-column">
-                        <label for="required_braking_torque">Required braking torque at wheel (Nm):</label>
-                        <input type="number" id="required_braking_torque" name="required_braking_torque" step="any" value="500" required>
-
-                        <label for="number_of_pistons">Number of pistons per caliper:</label>
-                        <input type="number" id="number_of_pistons" name="number_of_pistons" step="any" value="4" required>
-
-                        <label for="hydraulic_pressure">Hydraulic pressure (MPa):</label>
-                        <input type="number" id="hydraulic_pressure" name="hydraulic_pressure" step="any" value="1.2" required>
-
-                        <label for="pad_contact_area">Pad contact area per piston (cm²):</label>
-                        <input type="number" id="pad_contact_area" name="pad_contact_area" step="any" value="20" required>
-
-                        <label for="number_of_discs">Number of discs per wheel:</label>
-                        <input type="number" id="number_of_discs" name="number_of_discs" step="any" value="1" required>
-                    </div>
-                    <div class="form-column">
-                        <label for="caliper_material_yield_strength">Caliper material yield strength (MPa):</label>
-                        <input type="number" id="caliper_material_yield_strength" name="caliper_material_yield_strength" step="any" value="250" required>
-
                         <label for="disc_effective_radius">Disc effective radius (m):</label>
                         <input type="number" id="disc_effective_radius" name="disc_effective_radius" step="any" value="0.12" required>
 
+                        <label for="required_braking_torque">Required braking torque (Nm):</label>
+                        <input type="number" id="required_braking_torque" name="required_braking_torque" step="any" value="500" required>
+
                         <label for="friction_coefficient">Friction coefficient (μ):</label>
                         <input type="number" id="friction_coefficient" name="friction_coefficient" step="any" value="0.4" required>
+
+                        <label for="pad_wear_rate">Pad wear rate (mm/1000km):</label>
+                        <input type="number" id="pad_wear_rate" name="pad_wear_rate" step="any" value="0.1" required>
+                    </div>
+                    <div class="form-column">
+                        <label for="pad_thickness">Pad thickness (mm):</label>
+                        <input type="number" id="pad_thickness" name="pad_thickness" step="any" value="8" required>
+
+                        <label for="pad_area">Pad area (cm²):</label>
+                        <input type="number" id="pad_area" name="pad_area" step="any" value="50" required>
+
+                        <label for="pad_thermal_conductivity">Pad thermal conductivity (W/mK):</label>
+                        <input type="number" id="pad_thermal_conductivity" name="pad_thermal_conductivity" step="any" value="1" required>
                     </div>
                 </div>
                 <input type="submit" value="Calculate" class="calculate-btn">
@@ -123,12 +120,10 @@
         {% if results %}
         <div class="results-container">
             <h3>Results:</h3>
-            <p>Total clamp force applied by caliper: {{ results.total_clamp_force }}</p>
-            <p>Required clamp force per piston: {{ results.clamp_force_per_piston }}</p>
-            <p>Piston diameter: {{ results.piston_diameter }}</p>
-            <p>Brake torque delivered by caliper: {{ results.brake_torque_delivered }}</p>
-            <p>Caliper structural stress: {{ results.caliper_stress }}</p>
-            <p>Factor of safety for caliper body: {{ results.safety_factor }}</p>
+            <p>Pad material selection: {{ results.pad_material }}</p>
+            <p>Pad area & thickness: {{ results.pad_area_thickness }}</p>
+            <p>Thermal capacity / heat dissipation: {{ results.thermal_capacity }}</p>
+            <p>Wear life / replacement schedule: {{ results.wear_life }}</p>
         </div>
         {% endif %}
     </div>
