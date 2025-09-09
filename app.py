@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 import numpy as np
 
 app = Flask(__name__)
@@ -44,7 +44,7 @@ def disc_design():
         outer_diameter_m = max_outer_diameter_m
         inner_diameter_m = outer_diameter_m * 0.6  # Placeholder
         thickness_m = initial_disc_thickness_m
-        effective_radius_m = (outer_diameter_m + inner_diameter_m) / 4 # Approximation
+        effective_radius_m = (outer_diameter_m + inner_diameter_m) / 2 # Approximation
 
         # Performance calculations
         min_service_thickness_m = thickness_m * 0.8 # 20% wear
@@ -55,7 +55,7 @@ def disc_design():
         # Stress and safety factor
         clamping_force = hydraulic_pressure_pa * caliper_piston_area_m2
         frictional_force = 2 * clamping_force * friction_coefficient # For one disc with two pads
-        # Simplified stress calculation
+        # Simplified stress calculation (placeholder, real-world stress analysis is complex)
         max_stress = (frictional_force * effective_radius_m) / (np.pi * (outer_diameter_m**2 - inner_diameter_m**2) * thickness_m) if (outer_diameter_m**2 - inner_diameter_m**2) > 0 else 0
         safety_factor = material_yield_strength_pa / max_stress if max_stress > 0 else float('inf')
 
@@ -71,11 +71,11 @@ def disc_design():
             'disc_mass': f'{disc_mass:.2f} kg',
             'heat_energy': f'{heat_energy / 1000:.2f} kJ',
             'temp_rise': f'{temp_rise:.2f} °C',
-            'safety_factor': f'{safety_factor:.2f}'
+            'safety_factor': f'{safety_factor:.2f} (Simplified)'
         })
     return render_template('disc_brake.html', results=None)
 
-@app.route('/caliper-design', methods=['GET', 'POST'])
+@app.route('/caliper_design', methods=['GET', 'POST'])
 def caliper_design():
     if request.method == 'POST':
         # Get inputs from the form
@@ -100,7 +100,7 @@ def caliper_design():
         piston_diameter_mm = 2 * np.sqrt(piston_area / np.pi) * 1000
         brake_torque_delivered = total_clamp_force * friction_coefficient * disc_effective_radius * number_of_discs * 2
         
-        # Simplified stress calculation (placeholder)
+        # Simplified stress calculation (placeholder, real-world stress analysis is complex)
         caliper_stress = (total_clamp_force * 0.1) / (pad_contact_area_m2 * 0.1) if pad_contact_area_m2 > 0 else 0
         safety_factor = caliper_material_yield_strength_pa / caliper_stress if caliper_stress > 0 else float('inf')
 
@@ -109,8 +109,8 @@ def caliper_design():
             'clamp_force_per_piston': f'{clamp_force_per_piston:.2f} N',
             'piston_diameter': f'{piston_diameter_mm:.2f} mm',
             'brake_torque_delivered': f'{brake_torque_delivered:.2f} Nm',
-            'caliper_stress': f'{caliper_stress / 1e6:.2f} MPa',
-            'safety_factor': f'{safety_factor:.2f}'
+            'caliper_stress': f'{caliper_stress / 1e6:.2f} MPa (Simplified)',
+            'safety_factor': f'{safety_factor:.2f} (Simplified)'
         })
     return render_template('caliper_design.html', results=None)
 
@@ -118,32 +118,30 @@ def caliper_design():
 def brake_pad_design():
     if request.method == 'POST':
         # Get inputs from the form
-        disc_effective_radius = float(request.form['disc_effective_radius'])
-        required_braking_torque = float(request.form['required_braking_torque'])
-        friction_coefficient = float(request.form['friction_coefficient'])
+        total_mass = float(request.form['total_mass'])
+        initial_velocity_kmh = float(request.form['initial_velocity'])
+        stopping_distance = float(request.form['stopping_distance'])
+        pad_area_cm2 = float(request.form['pad_area'])
         pad_wear_rate = float(request.form['pad_wear_rate'])
         pad_thickness_mm = float(request.form['pad_thickness'])
-        pad_area_cm2 = float(request.form['pad_area'])
-        pad_thermal_conductivity = float(request.form['pad_thermal_conductivity'])
 
         # --- Unit Conversions ---
+        initial_velocity_ms = initial_velocity_kmh * 1000 / 3600
         pad_area_m2 = pad_area_cm2 / 10000
-        pad_thickness_m = pad_thickness_mm / 1000
 
         # --- Calculation Logic ---
-        pad_material = f"Friction Coefficient: {friction_coefficient}"
-        pad_area_thickness = f"{pad_area_cm2} cm², {pad_thickness_mm} mm"
-        # Simplified thermal capacity calculation
-        thermal_capacity = pad_area_m2 * pad_thickness_m * pad_thermal_conductivity * 1000
+        deceleration = initial_velocity_ms**2 / (2 * stopping_distance)
+        stopping_time = initial_velocity_ms / deceleration if deceleration > 0 else 0
+        heat_energy = 0.5 * total_mass * initial_velocity_ms**2
+        heat_flux = heat_energy / (pad_area_m2 * stopping_time) if (pad_area_m2 * stopping_time) > 0 else 0
         wear_life = (pad_thickness_mm / pad_wear_rate) * 1000 if pad_wear_rate > 0 else float('inf')
 
         return render_template('brake_pad_design.html', results={
-            'pad_material': pad_material,
-            'pad_area_thickness': pad_area_thickness,
-            'thermal_capacity': f'{thermal_capacity:.2f} W/K',
+            'heat_flux': f'{heat_flux / 1000:.2f} kW/m²',
             'wear_life': f'{wear_life:.2f} km'
         })
     return render_template('brake_pad_design.html', results=None)
+
 
 @app.route('/about')
 def about():

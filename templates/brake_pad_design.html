@@ -90,27 +90,24 @@
             <form method="post">
                 <div class="form-row">
                     <div class="form-column">
-                        <label for="disc_effective_radius">Disc effective radius (m):</label>
-                        <input type="number" id="disc_effective_radius" name="disc_effective_radius" step="any" value="0.12" required>
+                        <label for="total_mass">Total Mass (Vehicle + Rider) (kg):</label>
+                        <input type="number" id="total_mass" name="total_mass" step="any" value="280" required>
 
-                        <label for="required_braking_torque">Required braking torque (Nm):</label>
-                        <input type="number" id="required_braking_torque" name="required_braking_torque" step="any" value="500" required>
+                        <label for="initial_velocity">Initial Velocity (km/h):</label>
+                        <input type="number" id="initial_velocity" name="initial_velocity" step="any" value="60" required>
 
-                        <label for="friction_coefficient">Friction coefficient (μ):</label>
-                        <input type="number" id="friction_coefficient" name="friction_coefficient" step="any" value="0.4" required>
-
-                        <label for="pad_wear_rate">Pad wear rate (mm/1000km):</label>
-                        <input type="number" id="pad_wear_rate" name="pad_wear_rate" step="any" value="0.1" required>
-                    </div>
-                    <div class="form-column">
-                        <label for="pad_thickness">Pad thickness (mm):</label>
-                        <input type="number" id="pad_thickness" name="pad_thickness" step="any" value="8" required>
+                        <label for="stopping_distance">Stopping Distance (m):</label>
+                        <input type="number" id="stopping_distance" name="stopping_distance" step="any" value="20" required>
 
                         <label for="pad_area">Pad area (cm²):</label>
                         <input type="number" id="pad_area" name="pad_area" step="any" value="50" required>
+                    </div>
+                    <div class="form-column">
+                        <label for="pad_wear_rate">Pad wear rate (mm/1000km):</label>
+                        <input type="number" id="pad_wear_rate" name="pad_wear_rate" step="any" value="0.1" required>
 
-                        <label for="pad_thermal_conductivity">Pad thermal conductivity (W/mK):</label>
-                        <input type="number" id="pad_thermal_conductivity" name="pad_thermal_conductivity" step="any" value="1" required>
+                        <label for="pad_thickness">Pad thickness (mm):</label>
+                        <input type="number" id="pad_thickness" name="pad_thickness" step="any" value="8" required>
                     </div>
                 </div>
                 <input type="submit" value="Calculate" class="calculate-btn">
@@ -120,10 +117,8 @@
         {% if results %}
         <div class="results-container">
             <h3>Results:</h3>
-            <p>Pad material selection: {{ results.pad_material }}</p>
-            <p>Pad area & thickness: {{ results.pad_area_thickness }}</p>
-            <p>Thermal capacity / heat dissipation: {{ results.thermal_capacity }}</p>
-            <p>Wear life / replacement schedule: {{ results.wear_life }}</p>
+            <p>Heat Flux: {{ results.heat_flux }}</p>
+            <p>Wear Life: {{ results.wear_life }}</p>
         </div>
         {% endif %}
     </div>
