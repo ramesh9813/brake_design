@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+        .input-container {
+            width: 60%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .results-container {
+            width: 40%;
+            padding: 20px;
+            margin-left: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Courier, monospace;
+        }
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .form-column {
+            width: 48%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+    </style>
+
+    <h2>Caliper Design</h2>
+    <div class="main-container">
+        <div class="input-container">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="required_braking_torque">Required braking torque at wheel (Nm):</label>
+                        <input type="number" id="required_braking_torque" name="required_braking_torque" step="any" value="500" required>
+
+                        <label for="number_of_pistons">Number of pistons per caliper:</label>
+                        <input type="number" id="number_of_pistons" name="number_of_pistons" step="any" value="4" required>
+
+                        <label for="hydraulic_pressure">Hydraulic pressure (MPa):</label>
+                        <input type="number" id="hydraulic_pressure" name="hydraulic_pressure" step="any" value="1.2" required>
+
+                        <label for="pad_contact_area">Pad contact area per piston (cm²):</label>
+                        <input type="number" id="pad_contact_area" name="pad_contact_area" step="any" value="20" required>
+
+                        <label for="number_of_discs">Number of discs per wheel:</label>
+                        <input type="number" id="number_of_discs" name="number_of_discs" step="any" value="1" required>
+                    </div>
+                    <div class="form-column">
+                        <label for="caliper_material_yield_strength">Caliper material yield strength (MPa):</label>
+                        <input type="number" id="caliper_material_yield_strength" name="caliper_material_yield_strength" step="any" value="250" required>
+
+                        <label for="disc_effective_radius">Disc effective radius (m):</label>
+                        <input type="number" id="disc_effective_radius" name="disc_effective_radius" step="any" value="0.12" required>
+
+                        <label for="friction_coefficient">Friction coefficient (μ):</label>
+                        <input type="number" id="friction_coefficient" name="friction_coefficient" step="any" value="0.4" required>
+                    </div>
+                </div>
+                <input type="submit" value="Calculate">
+            </form>
+        </div>
+
+        {% if results %}
+        <div class="results-container">
+            <h3>Results:</h3>
+            <p>Total clamp force applied by caliper: {{ results.total_clamp_force }}</p>
+            <p>Required clamp force per piston: {{ results.clamp_force_per_piston }}</p>
+            <p>Piston diameter: {{ results.piston_diameter }}</p>
+            <p>Brake torque delivered by caliper: {{ results.brake_torque_delivered }}</p>
+            <p>Caliper structural stress: {{ results.caliper_stress }}</p>
+            <p>Factor of safety for caliper body: {{ results.safety_factor }}</p>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

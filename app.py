@@ -75,5 +75,44 @@ def disc_brake():
         })
     return render_template('disc_brake.html', results=None)
 
+@app.route('/caliper-design', methods=['GET', 'POST'])
+def caliper_design():
+    if request.method == 'POST':
+        # Get inputs from the form
+        required_braking_torque = float(request.form['required_braking_torque'])
+        number_of_pistons = int(request.form['number_of_pistons'])
+        hydraulic_pressure_mpa = float(request.form['hydraulic_pressure'])
+        pad_contact_area_cm2 = float(request.form['pad_contact_area'])
+        number_of_discs = int(request.form['number_of_discs'])
+        caliper_material_yield_strength_mpa = float(request.form['caliper_material_yield_strength'])
+        disc_effective_radius = float(request.form['disc_effective_radius'])
+        friction_coefficient = float(request.form['friction_coefficient'])
+
+        # --- Unit Conversions ---
+        hydraulic_pressure_pa = hydraulic_pressure_mpa * 1e6
+        pad_contact_area_m2 = pad_contact_area_cm2 / 10000
+        caliper_material_yield_strength_pa = caliper_material_yield_strength_mpa * 1e6
+
+        # --- Calculation Logic ---
+        total_clamp_force = required_braking_torque / (friction_coefficient * disc_effective_radius * number_of_discs * 2)
+        clamp_force_per_piston = total_clamp_force / number_of_pistons
+        piston_area = clamp_force_per_piston / hydraulic_pressure_pa
+        piston_diameter_mm = 2 * np.sqrt(piston_area / np.pi) * 1000
+        brake_torque_delivered = total_clamp_force * friction_coefficient * disc_effective_radius * number_of_discs * 2
+        
+        # Simplified stress calculation (placeholder)
+        caliper_stress = (total_clamp_force * 0.1) / (pad_contact_area_m2 * 0.1) if pad_contact_area_m2 > 0 else 0
+        safety_factor = caliper_material_yield_strength_pa / caliper_stress if caliper_stress > 0 else float('inf')
+
+        return render_template('caliper_design.html', results={
+            'total_clamp_force': f'{total_clamp_force:.2f} N',
+            'clamp_force_per_piston': f'{clamp_force_per_piston:.2f} N',
+            'piston_diameter': f'{piston_diameter_mm:.2f} mm',
+            'brake_torque_delivered': f'{brake_torque_delivered:.2f} Nm',
+            'caliper_stress': f'{caliper_stress / 1e6:.2f} MPa',
+            'safety_factor': f'{safety_factor:.2f}'
+        })
+    return render_template('caliper_design.html', results=None)
+
 if __name__ == '__main__':
     app.run(debug=True)
