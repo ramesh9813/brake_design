@@ -1,33 +1,115 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <style>
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+        .input-container {
+            width: 60%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .results-container {
+            width: 40%;
+            padding: 20px;
+            margin-left: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Courier, monospace;
+        }
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .form-column {
+            width: 48%;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+    </style>
+
     <h2>Disc Brake Design</h2>
-    <form method="post">
-        <label for="mass_vehicle">Mass of vehicle (kg):</label><br>
-        <input type="number" id="mass_vehicle" name="mass_vehicle" step="any" required><br><br>
+    <div class="main-container">
+        <div class="input-container">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="mass_vehicle">Vehicle mass (kg):</label>
+                        <input type="number" id="mass_vehicle" name="mass_vehicle" step="any" value="200" required>
 
-        <label for="mass_rider">Mass of rider and load (kg):</label><br>
-        <input type="number" id="mass_rider" name="mass_rider" step="any" required><br><br>
+                        <label for="mass_rider">Rider + load mass (kg):</label>
+                        <input type="number" id="mass_rider" name="mass_rider" step="any" value="80" required>
 
-        <label for="stopping_distance">Stopping Distance (m):</label><br>
-        <input type="number" id="stopping_distance" name="stopping_distance" step="any" required><br><br>
+                        <label for="initial_velocity">Initial speed (km/h):</label>
+                        <input type="number" id="initial_velocity" name="initial_velocity" step="any" value="60" required>
 
-        <label for="wheel_radius">Wheel Radius (m):</label><br>
-        <input type="number" id="wheel_radius" name="wheel_radius" step="any" required><br><br>
+                        <label for="stopping_distance">Stopping distance (m):</label>
+                        <input type="number" id="stopping_distance" name="stopping_distance" step="any" value="20" required>
 
-        <input type="submit" value="Calculate">
-    </form>
+                        <label for="wheel_radius">Wheel radius (m):</label>
+                        <input type="number" id="wheel_radius" name="wheel_radius" step="any" value="0.3" required>
 
-    {% if results %}
-    <hr>
-    <h3>Results:</h3>
-    <div style="font-family: Courier, monospace;">
-        <p>Outer Diameter: {{ results.outer_diameter }}</p>
-        <p>Inner Diameter: {{ results.inner_diameter }}</p>
-        <p>Thickness: {{ results.thickness }}</p>
-        <p>Maximum Stress: {{ results.max_stress }}</p>
-        <p>Braking Force: {{ results.braking_force }}</p>
-        <p>Braking Torque: {{ results.braking_torque }}</p>
+                        <label for="friction_coefficient">Friction coefficient (μ):</label>
+                        <input type="number" id="friction_coefficient" name="friction_coefficient" step="any" value="0.4" required>
+
+                        <label for="caliper_piston_area">Caliper piston area (cm²):</label>
+                        <input type="number" id="caliper_piston_area" name="caliper_piston_area" step="any" value="12" required>
+                    </div>
+                    <div class="form-column">
+                        <label for="hydraulic_pressure">Hydraulic pressure (MPa):</label>
+                        <input type="number" id="hydraulic_pressure" name="hydraulic_pressure" step="any" value="1" required>
+
+                        <label for="number_of_discs">Number of discs per wheel:</label>
+                        <input type="number" id="number_of_discs" name="number_of_discs" step="any" value="1" required>
+
+                        <label for="material_density">Material density (kg/m³):</label>
+                        <input type="number" id="material_density" name="material_density" step="any" value="7850" required>
+
+                        <label for="material_specific_heat">Material specific heat (J/kg·K):</label>
+                        <input type="number" id="material_specific_heat" name="material_specific_heat" step="any" value="450" required>
+
+                        <label for="material_yield_strength">Material yield strength (MPa):</label>
+                        <input type="number" id="material_yield_strength" name="material_yield_strength" step="any" value="350" required>
+
+                        <label for="max_outer_diameter">Max outer diameter allowed (mm):</label>
+                        <input type="number" id="max_outer_diameter" name="max_outer_diameter" step="any" value="320" required>
+
+                        <label for="initial_disc_thickness">Initial disc thickness (mm):</label>
+                        <input type="number" id="initial_disc_thickness" name="initial_disc_thickness" step="any" value="5" required>
+                    </div>
+                </div>
+                <input type="submit" value="Calculate">
+            </form>
+        </div>
+
+        {% if results %}
+        <div class="results-container">
+            <h3>Results:</h3>
+            <p>Required braking force: {{ results.braking_force }}</p>
+            <p>Required braking torque at wheel: {{ results.braking_torque }}</p>
+            <p>Effective radius of disc: {{ results.effective_radius }}</p>
+            <p>Outer diameter of disc (approx.): {{ results.outer_diameter }}</p>
+            <p>Inner diameter of disc (based on hub geometry): {{ results.inner_diameter }}</p>
+            <p>Disc thickness (first-pass estimate): {{ results.thickness }}</p>
+            <p>Minimum service thickness: {{ results.min_service_thickness }}</p>
+            <p>Mass of disc: {{ results.disc_mass }}</p>
+            <p>Heat energy absorbed per stop: {{ results.heat_energy }}</p>
+            <p>Approximate temperature rise: {{ results.temp_rise }}</p>
+            <p>Factor of safety: {{ results.safety_factor }}</p>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
 {% endblock %}
