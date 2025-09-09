@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Disc Brake Design</h2>
+    <form method="post">
+        <label for="mass_vehicle">Mass of vehicle (kg):</label><br>
+        <input type="number" id="mass_vehicle" name="mass_vehicle" step="any" required><br><br>
+
+        <label for="mass_rider">Mass of rider and load (kg):</label><br>
+        <input type="number" id="mass_rider" name="mass_rider" step="any" required><br><br>
+
+        <label for="stopping_distance">Stopping Distance (m):</label><br>
+        <input type="number" id="stopping_distance" name="stopping_distance" step="any" required><br><br>
+
+        <label for="wheel_radius">Wheel Radius (m):</label><br>
+        <input type="number" id="wheel_radius" name="wheel_radius" step="any" required><br><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+
+    {% if results %}
+    <hr>
+    <h3>Results:</h3>
+    <div style="font-family: Courier, monospace;">
+        <p>Outer Diameter: {{ results.outer_diameter }}</p>
+        <p>Inner Diameter: {{ results.inner_diameter }}</p>
+        <p>Thickness: {{ results.thickness }}</p>
+        <p>Maximum Stress: {{ results.max_stress }}</p>
+        <p>Braking Force: {{ results.braking_force }}</p>
+        <p>Braking Torque: {{ results.braking_torque }}</p>
+    </div>
+    {% endif %}
+{% endblock %}
