@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 20px;
+        }
+        .input-container {
+            width: 60%;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .results-container {
+            width: 40%;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .form-column {
+            width: 48%;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .calculate-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .calculate-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+    </style>
+
+    <h2>Brake Pad Design</h2>
+    <div class="main-container">
+        <div class="input-container">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="total_mass">Total Mass (Vehicle + Rider) (kg):</label>
+                        <input type="number" id="total_mass" name="total_mass" step="any" value="280" required>
+
+                        <label for="initial_velocity">Initial Velocity (km/h):</label>
+                        <input type="number" id="initial_velocity" name="initial_velocity" step="any" value="60" required>
+
+                        <label for="stopping_distance">Stopping Distance (m):</label>
+                        <input type="number" id="stopping_distance" name="stopping_distance" step="any" value="20" required>
+
+                        <label for="pad_area">Pad area (cm²):</label>
+                        <input type="number" id="pad_area" name="pad_area" step="any" value="50" required>
+                    </div>
+                    <div class="form-column">
+                        <label for="pad_wear_rate">Pad wear rate (mm/1000km):</label>
+                        <input type="number" id="pad_wear_rate" name="pad_wear_rate" step="any" value="0.1" required>
+
+                        <label for="pad_thickness">Pad thickness (mm):</label>
+                        <input type="number" id="pad_thickness" name="pad_thickness" step="any" value="8" required>
+                    </div>
+                </div>
+                <input type="submit" value="Calculate" class="calculate-btn">
+            </form>
+        </div>
+
+        {% if results %}
+        <div class="results-container">
+            <h3>Results:</h3>
+            <p>Heat Flux: {{ results['heat_flux'] }}</p>
+            <p>Wear Life: {{ results['wear_life'] }}</p>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

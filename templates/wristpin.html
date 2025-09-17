@@ -45,7 +45,7 @@
             font-weight: 600;
             color: var(--secondary-color);
         }
-        input[type="number"], select {
+        input[type="number"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -54,7 +54,7 @@
             border-radius: 4px;
             transition: border-color 0.3s ease;
         }
-        input[type="number"]:focus, select:focus {
+        input[type="number"]:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
@@ -84,33 +84,20 @@
         }
     </style>
 
-    <h2>Tyre Design</h2>
+    <h2>Wrist Pin Design</h2>
     <div class="main-container">
         <div class="input-container">
             <form method="post">
                 <div class="form-row">
                     <div class="form-column">
-                        <label for="bike_type">Bike type:</label>
-                        <select id="bike_type" name="bike_type" required>
-                            <option value="commuter">Commuter</option>
-                            <option value="sports">Sports</option>
-                            <option value="superbike">Superbike</option>
-                            <option value="cruiser_touring">Cruiser/Touring</option>
-                            <option value="offroad">Offroad</option>
-                        </select>
+                        <label for="piston_diameter">Piston Diameter (mm):</label>
+                        <input type="number" id="piston_diameter" name="piston_diameter" step="any" value="80" required>
 
-                        <label for="vehicle_mass">Vehicle mass (kg):</label>
-                        <input type="number" id="vehicle_mass" name="vehicle_mass" step="any" value="200" required>
+                        <label for="max_gas_pressure">Max Gas Pressure (MPa):</label>
+                        <input type="number" id="max_gas_pressure" name="max_gas_pressure" step="any" value="10" required>
 
-                        <label for="rim_diameter">Rim diameter (inches):</label>
-                        <input type="number" id="rim_diameter" name="rim_diameter" step="any" value="17" required>
-                    </div>
-                    <div class="form-column">
-                        <label for="aspect_ratio">Desired aspect ratio (%):</label>
-                        <input type="number" id="aspect_ratio" name="aspect_ratio" step="any" value="70" required>
-
-                        <label for="section_width">Section width (mm):</label>
-                        <input type="number" id="section_width" name="section_width" step="any" value="120" required>
+                        <label for="wrist_pin_material_yield_strength">Wrist Pin Material Yield Strength (MPa):</label>
+                        <input type="number" id="wrist_pin_material_yield_strength" name="wrist_pin_material_yield_strength" step="any" value="800" required>
                     </div>
                 </div>
                 <input type="submit" value="Calculate" class="calculate-btn">
@@ -120,13 +107,11 @@
         {% if results %}
         <div class="results-container">
             <h3>Results:</h3>
-            <p>Section height: {{ results.section_height }}</p>
-            <p>Overall diameter: {{ results.overall_diameter }}</p>
-            <p>Tread thickness: {{ results.tread_thickness }}</p>
-            <p>Sidewall thickness: {{ results.sidewall_thickness }}</p>
-            <p>Bead size: {{ results.bead_size }}</p>
-            <p>Crown radius: {{ results.crown_radius }}</p>
-            <p>Contact patch area: {{ results.contact_patch_area }}</p>
+            <p>Wrist Pin Outer Diameter: {{ results['wrist_pin_outer_diameter'] }}</p>
+            <p>Wrist Pin Inner Diameter: {{ results['wrist_pin_inner_diameter'] }}</p>
+            <p>Bearing Pressure: {{ results['bearing_pressure'] }}</p>
+            <p>Bending Stress: {{ results['bending_stress'] }}</p>
+            <p>Safety Factor: {{ results['safety_factor'] }}</p>
         </div>
         {% endif %}
     </div>

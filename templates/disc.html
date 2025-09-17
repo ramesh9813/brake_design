@@ -141,17 +141,17 @@
         {% if results %}
         <div class="results-container">
             <h3>Results:</h3>
-            <p>Required braking force: {{ results.braking_force }}</p>
-            <p>Required braking torque at wheel: {{ results.braking_torque }}</p>
-            <p>Effective radius of disc: {{ results.effective_radius }}</p>
-            <p>Outer diameter of disc (approx.): {{ results.outer_diameter }}</p>
-            <p>Inner diameter of disc (based on hub geometry): {{ results.inner_diameter }}</p>
-            <p>Disc thickness (first-pass estimate): {{ results.thickness }}</p>
-            <p>Minimum service thickness: {{ results.min_service_thickness }}</p>
-            <p>Mass of disc: {{ results.disc_mass }}</p>
-            <p>Heat energy absorbed per stop: {{ results.heat_energy }}</p>
-            <p>Approximate temperature rise: {{ results.temp_rise }}</p>
-            <p>Factor of safety: {{ results.safety_factor }}</p>
+            <p>Required braking force: {{ results['braking_force'] }}</p>
+            <p>Required braking torque at wheel: {{ results['braking_torque'] }}</p>
+            <p>Effective radius of disc: {{ results['effective_radius'] }}</p>
+            <p>Outer diameter of disc (approx.): {{ results['outer_diameter'] }}</p>
+            <p>Inner diameter of disc (based on hub geometry): {{ results['inner_diameter'] }}</p>
+            <p>Disc thickness (first-pass estimate): {{ results['thickness'] }}</p>
+            <p>Minimum service thickness: {{ results['min_service_thickness'] }}</p>
+            <p>Mass of disc: {{ results['disc_mass'] }}</p>
+            <p>Heat energy absorbed per stop: {{ results['heat_energy'] }}</p>
+            <p>Approximate temperature rise: {{ results['temp_rise'] }}</p>
+            <p>Factor of safety: {{ results['safety_factor'] }}</p>
         </div>
         {% endif %}
     </div>

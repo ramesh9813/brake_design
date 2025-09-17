@@ -120,15 +120,15 @@
             </form>
         </div>
 
-        {% if results %}
+                {% if results %}
         <div class="results-container">
             <h3>Results:</h3>
-            <p>Total clamp force applied by caliper: {{ results.total_clamp_force }}</p>
-            <p>Required clamp force per piston: {{ results.clamp_force_per_piston }}</p>
-            <p>Piston diameter: {{ results.piston_diameter }}</p>
-            <p>Brake torque delivered by caliper: {{ results.brake_torque_delivered }}</p>
-            <p>Caliper structural stress: {{ results.caliper_stress }}</p>
-            <p>Factor of safety for caliper body: {{ results.safety_factor }}</p>
+            <p>Total clamp force applied by caliper: {{ results['total_clamp_force'] }}</p>
+            <p>Required clamp force per piston: {{ results['clamp_force_per_piston'] }}</p>
+            <p>Piston diameter: {{ results['piston_diameter'] }}</p>
+            <p>Brake torque delivered by caliper: {{ results['brake_torque_delivered'] }}</p>
+            <p>Caliper structural stress: {{ results['caliper_stress'] }}</p>
+            <p>Factor of safety for caliper body: {{ results['safety_factor'] }}</p>
         </div>
         {% endif %}
     </div>
