@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Brake Design Toolbox</h2>
+    <style>
+        .toolbox-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    </style>
+    <h2>Design Toolbox</h2>
     <p>Explore our comprehensive suite of design tools for brake system components. Select a tool to begin your design process.</p>
     
     <div class="toolbox-grid">
@@ -19,6 +24,46 @@
             <h3>Brake Pad Design</h3>
             <p>Engineer high-performance brake pad solutions.</p>
             <a href="/brake-pad-design">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Tyre Design</h3>
+            <p>Design and analyze bike tyres.</p>
+            <a href="/tyre-design">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Piston Design</h3>
+            <p>Calculate key piston dimensions.</p>
+            <a href="/piston">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Connecting Rod Design</h3>
+            <p>Design a connecting rod shank and bolts.</p>
+            <a href="/connectingrod">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Crankshaft Design</h3>
+            <p>Calculate key crankshaft dimensions.</p>
+            <a href="/crankshaft">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Clutch Design</h3>
+            <p>Design a single plate friction clutch.</p>
+            <a href="/clutch">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Gearbox Design</h3>
+            <p>Design ratios and gears for a motorcycle.</p>
+            <a href="/gearbox">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Chain & Sprocket Design</h3>
+            <p>Calculate chain length and sprocket dimensions.</p>
+            <a href="/chainsprocket">Start Designing</a>
+        </div>
+        <div class="toolbox-item">
+            <h3>Tyre & Rim Compatibility</h3>
+            <p>Check tyre and rim size compatibility.</p>
+            <a href="/rim">Start Designing</a>
         </div>
     </div>
 

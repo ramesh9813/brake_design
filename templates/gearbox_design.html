@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 20px;
+        }
+        .input-container {
+            width: 60%;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .results-container {
+            width: 40%;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .form-column {
+            width: 48%;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .calculate-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .calculate-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+    <h2>Motorcycle Gearbox Design</h2>
+    <div class="main-container">
+        <div class="input-container">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="max_engine_torque">Max Engine Torque (Nm):</label>
+                        <input type="number" id="max_engine_torque" name="max_engine_torque" step="any" value="100" required>
+
+                        <label for="primary_drive_ratio">Primary Drive Ratio:</label>
+                        <input type="number" id="primary_drive_ratio" name="primary_drive_ratio" step="any" value="1.8" required>
+
+                        <label for="first_gear_ratio">1st Gear Ratio:</label>
+                        <input type="number" id="first_gear_ratio" name="first_gear_ratio" step="any" value="2.8" required>
+
+                        <label for="top_gear_ratio">Top Gear Ratio:</label>
+                        <input type="number" id="top_gear_ratio" name="top_gear_ratio" step="any" value="0.9" required>
+
+                        <label for="number_of_gears">Number of Gears:</label>
+                        <input type="number" id="number_of_gears" name="number_of_gears" step="1" value="6" required>
+                    </div>
+                    <div class="form-column">
+                        <label for="gear_material_strength">Gear Material Allowable Stress (MPa):</label>
+                        <input type="number" id="gear_material_strength" name="gear_material_strength" step="any" value="200" required>
+
+                        <label for="safety_factor">Safety Factor:</label>
+                        <input type="number" id="safety_factor" name="safety_factor" step="any" value="1.5" required>
+
+                        <label for="module">Module (m):</label>
+                        <input type="number" id="module" name="module" step="any" value="2.5" required>
+
+                        <label for="pinion_teeth_1st_gear">Pinion Teeth (1st Gear):</label>
+                        <input type="number" id="pinion_teeth_1st_gear" name="pinion_teeth_1st_gear" step="1" value="17" required>
+                    </div>
+                </div>
+                <input type="submit" value="Calculate" class="calculate-btn">
+            </form>
+        </div>
+
+        {% if results %}
+        <div class="results-container">
+            <h3>Results:</h3>
+            <h4>Gear Ratios:</h4>
+            <table>
+                <tr>
+                    <th>Gear</th>
+                    <th>Ratio</th>
+                </tr>
+                {% for ratio in results.all_gear_ratios %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ ratio }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            
+            <h4>1st Gear Pair Design:</h4>
+            <p>Pinion Teeth: {{ results.pinion_teeth }}</p>
+            <p>Gear Teeth: {{ results.gear_teeth }}</p>
+            <p>Required Face Width: {{ results.face_width }}</p>
+            <p>Pinion Pitch Diameter: {{ results.pinion_pitch_diameter }}</p>
+            <p>Gear Pitch Diameter: {{ results.gear_pitch_diameter }}</p>
+            <p>Center Distance: {{ results.center_distance }}</p>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

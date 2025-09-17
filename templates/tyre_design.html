@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 20px;
+        }
+        .input-container {
+            width: 60%;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .results-container {
+            width: 40%;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .form-column {
+            width: 48%;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .calculate-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .calculate-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+    </style>
+
+    <h2>Tyre Design</h2>
+    <div class="main-container">
+        <div class="input-container">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="bike_type">Bike type:</label>
+                        <select id="bike_type" name="bike_type" required>
+                            <option value="commuter">Commuter</option>
+                            <option value="sports">Sports</option>
+                            <option value="superbike">Superbike</option>
+                            <option value="cruiser_touring">Cruiser/Touring</option>
+                            <option value="offroad">Offroad</option>
+                        </select>
+
+                        <label for="vehicle_mass">Vehicle mass (kg):</label>
+                        <input type="number" id="vehicle_mass" name="vehicle_mass" step="any" value="200" required>
+
+                        <label for="rim_diameter">Rim diameter (inches):</label>
+                        <input type="number" id="rim_diameter" name="rim_diameter" step="any" value="17" required>
+                    </div>
+                    <div class="form-column">
+                        <label for="aspect_ratio">Desired aspect ratio (%):</label>
+                        <input type="number" id="aspect_ratio" name="aspect_ratio" step="any" value="70" required>
+
+                        <label for="section_width">Section width (mm):</label>
+                        <input type="number" id="section_width" name="section_width" step="any" value="120" required>
+                    </div>
+                </div>
+                <input type="submit" value="Calculate" class="calculate-btn">
+            </form>
+        </div>
+
+        {% if results %}
+        <div class="results-container">
+            <h3>Results:</h3>
+            <p>Section height: {{ results.section_height }}</p>
+            <p>Overall diameter: {{ results.overall_diameter }}</p>
+            <p>Tread thickness: {{ results.tread_thickness }}</p>
+            <p>Sidewall thickness: {{ results.sidewall_thickness }}</p>
+            <p>Bead size: {{ results.bead_size }}</p>
+            <p>Crown radius: {{ results.crown_radius }}</p>
+            <p>Contact patch area: {{ results.contact_patch_area }}</p>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

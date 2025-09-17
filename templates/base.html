@@ -93,13 +93,19 @@
             box-shadow: 0 6px 8px rgba(0,0,0,0.2);
         }
         .toolbox-item a {
+            background-color: var(--accent-color);
             color: var(--text-primary);
             text-decoration: none;
             font-weight: bold;
-            transition: color 0.3s ease;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 1em;
+            transition: all 0.3s ease;
         }
         .toolbox-item a:hover {
-            color: var(--hover-color);
+            background-color: var(--hover-color);
+            transform: scale(1.05);
         }
     </style>
 </head>

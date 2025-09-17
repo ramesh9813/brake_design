@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            gap: 20px;
+        }
+        .input-container {
+            width: 60%;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .results-container {
+            width: 40%;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            font-family: 'Courier New', Courier, monospace;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .form-column {
+            width: 48%;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border-color 0.3s ease;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        .calculate-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .calculate-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .calculate-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+    </style>
+
+    <h2>Crankshaft Design</h2>
+    <div class="main-container">
+        <div class="input-container">
+            <form method="post">
+                <div class="form-row">
+                    <div class="form-column">
+                        <label for="piston_diameter">Piston Diameter (mm):</label>
+                        <input type="number" id="piston_diameter" name="piston_diameter" step="any" value="90" required>
+
+                        <label for="max_combustion_pressure">Max Combustion Pressure (MPa):</label>
+                        <input type="number" id="max_combustion_pressure" name="max_combustion_pressure" step="any" value="9" required>
+
+                        <label for="cylinder_bore_spacing">Cylinder Bore Spacing (mm):</label>
+                        <input type="number" id="cylinder_bore_spacing" name="cylinder_bore_spacing" step="any" value="100" required>
+                    </div>
+                    <div class="form-column">
+                        <label for="crankshaft_material_yield_strength">Crankshaft Material Yield Strength (MPa):</label>
+                        <input type="number" id="crankshaft_material_yield_strength" name="crankshaft_material_yield_strength" step="any" value="700" required>
+
+                        <label for="allowable_bearing_pressure">Allowable Bearing Pressure (MPa):</label>
+                        <input type="number" id="allowable_bearing_pressure" name="allowable_bearing_pressure" step="any" value="15" required>
+
+                        <label for="safety_factor">Safety Factor:</label>
+                        <input type="number" id="safety_factor" name="safety_factor" step="any" value="2" required>
+                    </div>
+                </div>
+                <input type="submit" value="Calculate" class="calculate-btn">
+            </form>
+        </div>
+
+        {% if results %}
+        <div class="results-container">
+            <h3>Results:</h3>
+            <h4>Crankpin (Big End Journal):</h4>
+            <p>Crankpin Diameter: {{ results.crankpin_diameter }}</p>
+            <p>Crankpin Length: {{ results.crankpin_length }}</p>
+            <h4>Main Journal:</h4>
+            <p>Main Journal Diameter: {{ results.main_journal_diameter }}</p>
+            <p>Main Journal Length: {{ results.main_journal_length }}</p>
+            <h4>Crank Web:</h4>
+            <p>Crank Web Thickness: {{ results.crank_web_thickness }}</p>
+            <p>Crank Web Width: {{ results.crank_web_width }}</p>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
