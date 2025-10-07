@@ -1,2 +1,3 @@
 myflaskapp
-/myflaskapp
+/myflaskapp__pycache__/
+.env
